@@ -19,8 +19,11 @@ def main():
     df = pd.read_csv(freq_file)
     patterns = df[resid_col].tolist()
     found = find_pattern(data, patterns)
-
-    write_to_file(found, out_file)
+    if len(found) > 1:
+        write_to_file(found, out_file)
+        print(f"Motifs written to file: {out_file}")
+    else:
+        print("No tmoifs found.")
 
 
 def write_to_file(data, dir):
