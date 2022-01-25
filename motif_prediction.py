@@ -13,15 +13,13 @@ def main():
     file = "data_seq.txt"
     freq_file = 'threshold_frequency.csv'
     resid_col = 'Neighbouring_residues'
-
+    #
     data = read_file(file)
-    # print(data)
+    # data = ['GGLELK']
     df = pd.read_csv(freq_file)
     patterns = df[resid_col].tolist()
     found = find_pattern(data, patterns)
-
-    print(set(found))
-
+    print(found)
 
 def read_file(dir):
     with open(dir, "r") as file:
@@ -35,13 +33,10 @@ def find_pattern(total_list, pattern_list):
     found = []
     for motif in total_list:
         for three_comb in itertools.combinations(pattern_list, 3):
-            # three_comb = ''.join(three_comb)
-            result = re.findall(rf'({three_comb[0]}).?{three_comb[1]}.?{three_comb[2]}', motif)
-            if len(result) > 1:
-                print(result)
-
-    return found
-
+            first_comb, second_comb, third_comb = three_comb
+            if first_comb in motif and second_comb in motif and third_comb in motif:
+                found.append(motif)
+    return set(found)
 
 if __name__ == "__main__":
     main()
