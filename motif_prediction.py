@@ -7,19 +7,27 @@ Created on Wed Jan  5 14:39:33 2022
 """
 import pandas as pd
 import itertools
-import re
+
 
 def main():
     file = "data_seq.txt"
     freq_file = 'threshold_frequency.csv'
     resid_col = 'Neighbouring_residues'
-    #
+    out_file = 'fixed.txt'
+
     data = read_file(file)
-    # data = ['GGLELK']
     df = pd.read_csv(freq_file)
     patterns = df[resid_col].tolist()
     found = find_pattern(data, patterns)
-    print(found)
+
+    write_to_file(found, out_file)
+
+
+def write_to_file(data, dir):
+    with open(dir, "w") as file:
+        for line in data:
+            print(line, file=file)
+
 
 def read_file(dir):
     with open(dir, "r") as file:
@@ -38,6 +46,6 @@ def find_pattern(total_list, pattern_list):
                 found.append(motif)
     return set(found)
 
+
 if __name__ == "__main__":
     main()
-     
